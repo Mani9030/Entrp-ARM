@@ -17,8 +17,13 @@
       "metadata": {
         "description": "The Service Principal Client Secret."
       }
-    }
-  },
+    },
+    "kubernetesVersion": {
+      "type": "string",
+      "defaultValue": ""
+      }
+    },
+  
   "variables": {
     "NewRGName": "[replace(resourceGroup().name,'RG-', '')]"
   },
@@ -186,7 +191,7 @@
         "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('NewRGName'), '-Vnet'), 'subnet1')]"
       ],
       "properties": {
-        "kubernetesVersion": "1.19.6",
+        "kubernetesVersion": "[parameters('kubernetesVersion')]",
         "dnsPrefix": "[concat(variables('NewRGName'), '-AKSClusterdns')]",
         "agentPoolProfiles": [
           {
@@ -200,7 +205,7 @@
             "maxCount": 15,
             "minCount": 1,
             "enableAutoScaling": true,
-            "orchestratorVersion": "1.19.6",
+            "orchestratorVersion": "[parameters('kubernetesVersion')]",
             "osType": "Linux"
           }
         ],
@@ -266,7 +271,7 @@
         "maxCount": 15,
         "minCount": 1,
         "enableAutoScaling": true,
-        "orchestratorVersion": "1.19.6",
+        "orchestratorVersion": "[parameters('kubernetesVersion')]",
         "osType": "Linux"
       }
     }
